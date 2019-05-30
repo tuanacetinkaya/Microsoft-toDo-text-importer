@@ -2,10 +2,8 @@ from selenium import webdriver
 from time import sleep
 from selenium.webdriver.common.by import By
 import src.FileOrder as fo
-#NOTE: PLEASE IMPORT YOUR ACCOUNT AND TO DO LIST INFORMATION BY HAND ALSO CHECK FileOrder.py
-#you can find where you need to write infos by searching "by hand" in code
 
-
+#you can past the information to import in aa list in FileOrder class or you can change the directory in FileOrder and import the list in ToDo File
 theList = fo.get_aa()
 
 driver_path = "../drivers/chromedriver.exe"
@@ -21,21 +19,23 @@ EMAILFIELD = (By.ID, "i0116")
 PASSWORDFIELD = (By.ID, "i0118")
 NEXTBUTTON = (By.ID, "idSIButton9")
 
-#DONT FORGET TO IMPORT YOUR ACCOUNT INFORMATION HERE BY HAND
-driver.find_element_by_name("loginfmt").send_keys("ENTER YOUR MAIL HERE")
+mail = input("ENTER YOUR MAIL HERE: ")
+passwd = input("ENTER YOUR PASSWORD HERE: ") 
+driver.find_element_by_name("loginfmt").send_keys(mail)
 driver.find_element_by_id("idSIButton9").click()
-driver.find_element_by_name("passwd").send_keys("ENTER YOUR PASSWORD HERE")
+driver.find_element_by_name("passwd").send_keys(passwd)
 sleep(2)
 driver.execute_script('document.getElementsByClassName("btn btn-block btn-primary")[0].click()')
 # sleep(9)
 
 i = 0
+searching = input("ENTER THE EXACT NAME OF YOUR TO DO LIST HERE: ")
 while True:
     try:
 
         xx = driver.execute_script('return document.getElementsByClassName("listItem-titleParsed")[{0}].innerText'.format(i))
-        #ENTER THE EXACT NAME OF YOUR TO DO LIST HERE BY HAND
-        if xx == "EXAMPLE: Movie List":
+       
+        if xx == searching:
             driver.execute_script('document.getElementsByClassName("listItem-titleParsed")[{0}].click()'.format(i))
             break
         else:
